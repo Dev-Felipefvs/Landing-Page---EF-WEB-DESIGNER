@@ -138,42 +138,31 @@
             display: flex;
             width: max-content;
             animation: marquee 15s linear infinite;
+            will-change: transform;
+            backface-visibility: hidden;
         }
         .marquee-track-reverse {
             display: flex;
             width: max-content;
             animation: marquee-reverse 15s linear infinite;
+            will-change: transform;
+            backface-visibility: hidden;
         }
 
-        /* Marquee Mask Effect */
+        /* Marquee Mask Effect - Refeito para eliminar artefatos no Mobile */
         .marquee-mask {
             position: relative;
-        }
-        .marquee-mask::before, .marquee-mask::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 15%;
-            z-index: 2;
-            pointer-events: none;
-        }
-        .marquee-mask::before {
-            left: 0;
-            background: linear-gradient(to right, #050a0a, transparent);
-        }
-        .marquee-mask::after {
-            right: 0;
-            background: linear-gradient(to left, #050a0a, transparent);
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
         }
 
         /* Ajuste de velocidade no Mobile */
         @media (max-width: 768px) {
             .marquee-track {
-                animation-duration: 30s;
+                animation-duration: 25s;
             }
             .marquee-track-reverse {
-                animation-duration: 30s;
+                animation-duration: 25s;
             }
         }
 
@@ -380,33 +369,33 @@
         </div>
     </section>
 
-    <!-- Marquee (Palavras Infinitas Estilizadas - AUMENTADO com MASCARA DE FADE) -->
+    <!-- Marquee (Palavras Infinitas Estilizadas - AUMENTADO com MASCARA DE FADE REFEITA) -->
     <section class="py-16 bg-[#050a0a] overflow-hidden space-y-6 marquee-mask">
         <!-- Linha 1 -->
         <div class="marquee-track flex items-center gap-6">
             <div class="flex items-center gap-6 px-4">
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">COPY PERSUASIVA</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">COPY PERSUASIVA</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PERFORMANCE</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PERFORMANCE</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PROFISSIONALISMO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PROFISSIONALISMO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">ALTA CONVERSÃO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">ALTA CONVERSÃO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RESULTADOS</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RESULTADOS</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
             </div>
             <!-- Duplicado para loop -->
             <div class="flex items-center gap-6 px-4">
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">COPY PERSUASIVA</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">COPY PERSUASIVA</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PERFORMANCE</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PERFORMANCE</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PROFISSIONALISMO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PROFISSIONALISMO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">ALTA CONVERSÃO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">ALTA CONVERSÃO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RESULTADOS</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RESULTADOS</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
             </div>
         </div>
@@ -414,32 +403,32 @@
         <!-- Linha 2 -->
         <div class="marquee-track-reverse flex items-center gap-6">
             <div class="flex items-center gap-6 px-4">
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
             </div>
             <!-- Duplicado para loop -->
             <div class="flex items-center gap-6 px-4">
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
-                <span class="border border-white/10 px-10 py-4 rounded-full text-[11px] md:text-lg font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <span class="border border-white/10 px-8 py-3 rounded-full text-[10px] md:text-base font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
                 <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
             </div>
         </div>
