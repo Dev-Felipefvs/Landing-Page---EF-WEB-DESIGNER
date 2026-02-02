@@ -236,12 +236,118 @@
             mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
             opacity: 0.12;
         }
+
+        /* Estilo para Sliders Customizados */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #4fd1c5;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+            box-shadow: 0 0 10px rgba(79, 209, 197, 0.5);
+        }
+
+        /* Chatbot Styles */
+        #chatbot-window {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 350px;
+            max-width: calc(100vw - 48px);
+            height: 520px;
+            max-height: calc(100vh - 140px);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            background: #0d1313; /* Fundo sólido não transparente */
+            border: 1px solid rgba(79, 209, 197, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+        }
+        #chatbot-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .message-bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1rem;
+            border-radius: 0 1.25rem 1.25rem 1.25rem;
+            font-size: 0.875rem;
+            max-width: 85%;
+            line-height: 1.4;
+            color: #d1d5db;
+        }
+        .message-user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #4fd1c5 0%, #319795 100%);
+            padding: 0.75rem 1rem;
+            border-radius: 1.25rem 1.25rem 0 1.25rem;
+            font-size: 0.875rem;
+            max-width: 85%;
+            line-height: 1.4;
+            color: black;
+            font-weight: 500;
+        }
+        .typing-indicator {
+            font-style: italic;
+            font-size: 0.75rem;
+            color: #4fd1c5;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Suggested Questions Styling */
+        #suggested-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .suggestion-chip {
+            background: rgba(79, 209, 197, 0.1);
+            border: 1px solid rgba(79, 209, 197, 0.2);
+            padding: 0.4rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            color: #4fd1c5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .suggestion-chip:hover {
+            background: rgba(79, 209, 197, 0.2);
+            transform: translateY(-1px);
+        }
     </style>
 <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.4",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai"
   }
 }
 </script>
@@ -518,7 +624,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
-                <!-- Card Landing Page (CORREÇÃO: Removida mancha transparente absoluta) -->
+                <!-- Card Landing Page -->
                 <div class="glass-card p-8 md:p-12 rounded-[2rem] border border-white/5 hover:border-teal-500/40 transition-all group relative overflow-hidden flex flex-col h-full">
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center text-teal-400">
@@ -541,7 +647,7 @@
                     </div>
                     
                     <div class="p-6 bg-white/5 rounded-2xl border border-white/5 mb-8">
-                        <p class="text-sm text-gray-300 italic">"Se você quer vender um produto ou serviço específico hoje, esta é a sua escolha."</p>
+                        <p class="text-sm text-gray-300 italic">"Se você quer vender um product ou serviço específico hoje, esta é a sua escolha."</p>
                     </div>
                 </div>
 
@@ -575,7 +681,7 @@
             </div>
 
             <!-- Ajuda a escolher + CTA Principal -->
-            <div class="max-w-4xl mx-auto glass-card p-8 md:p-12 rounded-3xl border border-teal-500/20 text-center relative">
+            <div class="max-w-4xl mx-auto glass-card p-8 md:p-12 rounded-3xl border border-teal-500/20 text-center relative mb-20">
                 <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-teal-500 px-6 py-2 rounded-full text-black font-bold text-sm">QUAL ESCOLHER?</div>
                 <h3 class="text-2xl md:text-3xl font-bold mb-6">Ainda na dúvida sobre a melhor estratégia?</h3>
                 <p class="text-gray-400 text-lg mb-10 leading-relaxed">
@@ -592,7 +698,143 @@
         </div>
     </section>
 
-    <!-- PLANOS (CORRIGIDO: Removida mancha transparente/artefatos de shadow) -->
+    <!-- NOVA SEÇÃO: Simulador de ROI e Orçamento -->
+    <section id="calculadora" class="py-24 md:py-32 px-6 md:px-12 bg-[#050a0a] reveal border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-1.5 rounded-md border border-white/10 mb-8 bg-white/5 uppercase text-[10px] font-bold tracking-widest text-teal-400">CALCULADORA DE RESULTADOS</div>
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Simule o seu <span class="text-teal-400">Crescimento</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">Descubra quanto você pode ganhar investindo em um site profissional de alta conversão.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+                <!-- Inputs da Calculadora -->
+                <div class="lg:col-span-3 glass-card p-8 md:p-10 rounded-[2rem] border border-white/5 space-y-10">
+                    <!-- Tipo de Projeto -->
+                    <div class="space-y-4">
+                        <label class="text-sm font-bold text-gray-300 uppercase tracking-widest">1. Qual o seu objetivo?</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button onclick="updateProjectType('lp', this)" class="project-btn active border border-teal-500/50 bg-teal-500/10 p-4 rounded-xl text-left transition-all">
+                                <h4 class="font-bold text-white mb-1">Landing Page</h4>
+                                <p class="text-[10px] text-gray-400">Vendas imediatas e Anúncios</p>
+                            </button>
+                            <button onclick="updateProjectType('inst', this)" class="project-btn border border-white/10 bg-white/5 p-4 rounded-xl text-left transition-all hover:bg-white/10">
+                                <h4 class="font-bold text-white mb-1">Site Institucional</h4>
+                                <p class="text-[10px] text-gray-400">Autoridade e Presença Digital</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Visitantes Mensais -->
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center">
+                            <label class="text-sm font-bold text-gray-300 uppercase tracking-widest">2. Visitantes Mensais Estimados</label>
+                            <span id="visitors-display" class="text-teal-400 font-black text-xl">5.000</span>
+                        </div>
+                        <input type="range" id="visitors-range" min="500" max="50000" step="500" value="5000" class="w-full" oninput="calculateROI()">
+                        <p class="text-[10px] text-gray-500 italic">Arraste para definir quantos acessos você espera ou já possui por mês.</p>
+                    </div>
+
+                    <!-- Ticket Médio -->
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center">
+                            <label class="text-sm font-bold text-gray-300 uppercase tracking-widest">3. Ticket Médio (R$)</label>
+                            <span id="ticket-display" class="text-teal-400 font-black text-xl">R$ 500</span>
+                        </div>
+                        <input type="range" id="ticket-range" min="50" max="10000" step="50" value="500" class="w-full" oninput="calculateROI()">
+                        <p class="text-[10px] text-gray-500 italic">Qual o valor médio que cada cliente gasta com você?</p>
+                    </div>
+                </div>
+
+                <!-- Resultados da Calculadora -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="p-8 md:p-10 rounded-[2rem] bg-gradient-to-br from-teal-500/20 to-teal-900/20 border border-teal-500/30 flex flex-col items-center text-center">
+                        <h4 class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-6">Projeção de Ganho Mensal</h4>
+                        <div class="mb-2">
+                            <span class="text-gray-400 text-lg">R$</span>
+                            <span id="gain-display" class="text-5xl md:text-6xl font-black text-white">0,00</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-8 italic">Aumento estimado no faturamento mensal*</p>
+                        
+                        <div class="w-full h-[1px] bg-white/10 mb-8"></div>
+                        
+                        <div class="grid grid-cols-2 gap-4 w-full mb-10">
+                            <div class="text-left">
+                                <span class="block text-[10px] text-gray-500 uppercase font-bold mb-1">ROI ESTIMADO</span>
+                                <span id="roi-display" class="text-xl font-black text-teal-400">22x</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-[10px] text-gray-500 uppercase font-bold mb-1">INVESTIMENTO</span>
+                                <span id="cost-display" class="text-xl font-black text-white">R$ 479</span>
+                            </div>
+                        </div>
+
+                        <a href="https://wa.me/5511999999999" class="btn-primary w-full py-5 rounded-2xl font-bold text-center">VALIDAR ESSA PROJEÇÃO</a>
+                    </div>
+                    
+                    <div class="p-6 glass-card rounded-2xl border border-white/5">
+                        <p class="text-[10px] text-gray-500 leading-relaxed text-center">
+                            *Cálculo baseado em uma melhoria média conservadora de 2% na taxa de conversão em relação a sites não profissionais. Os resultados reais podem variar de acordo com a qualidade do seu tráfego e oferta.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- O Verdadeiro Impacto -->
+    <section id="impacto" class="relative py-24 md:py-32 bg-[#050a0a] overflow-hidden reveal">
+        <div class="absolute inset-0 grid-impact-bg pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                <!-- Coluna Esquerda -->
+                <div class="text-left">
+                    <div class="inline-block px-4 py-2 rounded-md border border-white/10 mb-8 bg-white/5">
+                        <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-teal-400 uppercase">O VERDADEIRO IMPACTO</span>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-8 text-white tracking-tight">
+                        <span class="text-teal-400">Nos próximos anos vão existir 2 tipos de negócios:</span> os que tem uma forte presença digital e os que estão de porta fechada.
+                    </h2>
+                    <div class="space-y-4 text-gray-400 text-lg md:text-xl font-light">
+                        <p>Se você não valoriza sua presença online, pode ter certeza que seu concorrente valoriza.</p>
+                        <p class="text-white font-bold">Não fique para trás e invista agora em um site profissional.</p>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Cards de Estatísticas -->
+                <div class="space-y-6">
+                    <!-- Card 1 -->
+                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
+                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
+                            <strong class="text-white font-bold">75% dos usuários</strong> julgam a credibilidade de um negócio com base no design do site.
+                        </p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
+                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
+                            <strong class="text-white font-bold">88% dos usuários</strong> são menos propensos a voltar a um site após uma experiênca negativa, como um site lento ou confuso.
+                        </p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
+                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
+                            Para cada R$5 investido em um bom site, pode resultar em um <strong class="text-white font-bold">retorno de R$500 ou mais</strong>
+                        </p>
+                    </div>
+                    <p class="text-[10px] text-gray-600 uppercase tracking-widest text-right mt-4">FONTE: aufaitux.com</p>
+                </div>
+            </div>
+
+            <!-- Botão CTA Abaixo -->
+            <div class="mt-20 flex justify-center">
+                <a href="https://wa.me/5511999999999" class="btn-primary px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-4 group shadow-[0_0_40px_rgba(79,209,197,0.3)] transition-all hover:scale-[1.05]">
+                    QUERO UM SITE PROFISSIONAL <i class="fa-brands fa-whatsapp text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANOS -->
     <section id="planos" class="relative py-24 md:py-32 bg-[#050a0a] reveal overflow-hidden isolation-auto">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="text-center mb-16">
@@ -759,57 +1001,7 @@
         </div>
     </section>
 
-    <!-- O Verdadeiro Impacto -->
-    <section id="impacto" class="relative py-24 md:py-32 bg-[#050a0a] overflow-hidden reveal">
-        <div class="absolute inset-0 grid-impact-bg pointer-events-none"></div>
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-                <!-- Coluna Esquerda -->
-                <div class="text-left">
-                    <div class="inline-block px-4 py-2 rounded-md border border-white/10 mb-8 bg-white/5">
-                        <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-teal-400 uppercase">O VERDADEIRO IMPACTO</span>
-                    </div>
-                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-8 text-white tracking-tight">
-                        <span class="text-teal-400">Nos próximos anos vão existir 2 tipos de negócios:</span> os que tem uma forte presença digital e os que estão de porta fechada.
-                    </h2>
-                    <div class="space-y-4 text-gray-400 text-lg md:text-xl font-light">
-                        <p>Se você não valoriza sua presença online, pode ter certeza que seu concorrente valoriza.</p>
-                        <p class="text-white font-bold">Não fique para trás e invista agora em um site profissional.</p>
-                    </div>
-                </div>
-
-                <!-- Coluna Direita: Cards de Estatísticas -->
-                <div class="space-y-6">
-                    <!-- Card 1 -->
-                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
-                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
-                            <strong class="text-white font-bold">75% dos usuários</strong> julgam a credibilidade de um negócio com base no design do site.
-                        </p>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
-                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
-                            <strong class="text-white font-bold">88% dos usuários</strong> são menos propensos a voltar a um site após uma experiênca negativa, como um site lento ou confuso.
-                        </p>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
-                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
-                            Para cada R$5 investido em um bom site, pode resultar em um <strong class="text-white font-bold">retorno de R$500 ou mais</strong>
-                        </p>
-                    </div>
-                    <p class="text-[10px] text-gray-600 uppercase tracking-widest text-right mt-4">FONTE: aufaitux.com</p>
-                </div>
-            </div>
-
-            <!-- Botão CTA Abaixo -->
-            <div class="mt-20 flex justify-center">
-                <a href="https://wa.me/5511999999999" class="btn-primary px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-4 group shadow-[0_0_40px_rgba(79,209,197,0.3)] transition-all hover:scale-[1.05]">
-                    QUERO UM SITE PROFISSIONAL <i class="fa-brands fa-whatsapp text-2xl"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+   
 
     <!-- FAQ -->
     <section id="faq" class="py-24 md:py-32 bg-[#050a0a] reveal border-t border-white/5">
@@ -818,7 +1010,7 @@
                 <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight">Dúvidas Frequentes</h2>
             </div>
             <div class="space-y-4">
-                <!-- Item 1 -->
+                <!-- FAQ Item 1 -->
                 <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
                     <div class="p-6 md:p-8 flex justify-between items-center">
                         <h3 class="text-lg md:text-xl font-bold text-white uppercase">Em quanto tempo fica pronta a landing page?</h3>
@@ -828,7 +1020,7 @@
                         <p class="text-gray-400 leading-relaxed">O prazo de criação de uma landing page é de 2 a 3 dias úteis, após o envio das informações e confirmação do pagamento.</p>
                     </div>
                 </div>
-                <!-- Item 2 -->
+                <!-- FAQ Item 2 -->
                 <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
                     <div class="p-6 md:p-8 flex justify-between items-center">
                         <h3 class="text-lg md:text-xl font-bold text-white uppercase">E um site institucional, quanto tempo leva?</h3>
@@ -838,7 +1030,7 @@
                         <p class="text-gray-400 leading-relaxed">Um site institucional leva em média de 10 a 15 dias úteis, pois envolve mais páginas, estrutura e ajustes.</p>
                     </div>
                 </div>
-                <!-- Item 3 -->
+                <!-- FAQ Item 3 -->
                 <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
                     <div class="p-6 md:p-8 flex justify-between items-center">
                         <h3 class="text-lg md:text-xl font-bold text-white uppercase">Como funciona o pagamento?</h3>
@@ -846,125 +1038,6 @@
                     </div>
                     <div class="faq-content px-6 md:px-8">
                         <p class="text-gray-400 leading-relaxed">O pagamento é feito em 50% no início para dar start no projeto e 50% na entrega da landing page ou site.</p>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">A LANDING PAGE É OTIMIZADA PARA CELULAR?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <p class="text-gray-400 leading-relaxed">Sim. A landing page é 100% responsiva, pensada primeiro para celular, que é de onde vem a maior parte dos acessos.</p>
-                    </div>
-                </div>
-                <!-- Item 5 -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">O que exatamente está incluso na landing page?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <p class="text-gray-400 leading-relaxed">Inclui estrutura focada em conversão, design responsivo, ajustes de textos, CTA estratégico e integração básica (WhatsApp ou formulário).</p>
-                    </div>
-                </div>
-                <!-- Item 6 -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">A landing page tem SEO para o Google?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <p class="text-gray-400 leading-relaxed">Sim, possui SEO básico aplicado (estrutura, títulos e performance). O foco principal é converter tráfego, não ranqueamento orgânico.</p>
-                    </div>
-                </div>
-                <!-- Item 7 -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Posso pedir alterações?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <p class="text-gray-400 leading-relaxed">Sim. Cada pacote inclui uma quantidade definida de ajustes. Alterações fora do escopo podem ser cobradas à parte.</p>
-                    </div>
-                </div>
-                <!-- Item 8 -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Posso usar a landing page para anúncios?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <p class="text-gray-400 leading-relaxed">Sim. Todas as landing pages são entregues prontas para tráfego pago.</p>
-                    </div>
-                </div>
-                <!-- Item 9 -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Você faz tráfego pago?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <p class="text-gray-400 leading-relaxed">Não. Meu foco é a criação da landing page. Posso orientar ou indicar parceiros, se necessário.</p>
-                    </div>
-                </div>
-                <!-- Item 10 -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Como faço para contratar?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <p class="text-gray-400 leading-relaxed">É só me chamar diretamente no Whatsapp.</p>
-                    </div>
-                </div>
-                <!-- Item 11: Planos -->
-                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
-                    <div class="p-6 md:p-8 flex justify-between items-center">
-                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">COMO FUNCIONAM OS PLANOS?</h3>
-                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
-                    </div>
-                    <div class="faq-content px-6 md:px-8">
-                        <div class="text-gray-400 leading-relaxed space-y-6">
-                            <p>Trabalho com planos claros e objetivos, focados apenas na criação da landing page ou do site, prontos para anúncios.</p>
-                            
-                            <div class="border-l-2 border-teal-500/50 pl-4">
-                                <h4 class="text-white font-bold uppercase mb-2">PLANO 1 — LANDING PAGE</h4>
-                                <p class="mb-2 italic text-sm">Ideal para quem quer anunciar e converter.</p>
-                                <ul class="list-disc list-inside text-sm space-y-1">
-                                    <li>Landing page focada em conversão</li>
-                                    <li>Otimizada para celular</li>
-                                    <li>SEO básico</li>
-                                    <li>Integração com WhatsApp ou formulário</li>
-                                </ul>
-                                <p class="mt-2 font-bold text-teal-400">⏱ Prazo: 2 a 3 dias úteis</p>
-                            </div>
-
-                            <div class="border-l-2 border-teal-500/50 pl-4">
-                                <h4 class="text-white font-bold uppercase mb-2">PLANO 2 — LANDING PAGE (AVANÇADA)</h4>
-                                <p class="mb-2 italic text-sm">Para quem quer mais estratégia e conversão.</p>
-                                <ul class="list-disc list-inside text-sm space-y-1">
-                                    <li>Estrutura estratégica</li>
-                                    <li>Copy otimizada</li>
-                                    <li>CTA avançado</li>
-                                    <li>Integrações completas</li>
-                                    <li>Pixel configurado</li>
-                                </ul>
-                                <p class="mt-2 font-bold text-teal-400">⏱ Prazo: 7 a 10 dias úteis</p>
-                            </div>
-
-                            <div class="border-l-2 border-teal-500/50 pl-4">
-                                <h4 class="text-white font-bold uppercase mb-2">PLANO 3 — SITE INSTITUCIONAL</h4>
-                                <p class="mb-2 italic text-sm">Para negócios que precisam de presença profissional.</p>
-                                <ul class="list-disc list-inside text-sm space-y-1">
-                                    <li>Site institucional</li>
-                                    <li>Design profissional</li>
-                                    <li>Otimizado para celular</li>
-                                    <li>SEO básico</li>
-                                </ul>
-                                <p class="mt-2 font-bold text-teal-400">⏱ Prazo: 10 a 15 dias úteis</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -980,19 +1053,66 @@
         <div class="text-[10px] text-gray-600 uppercase tracking-widest">© 2026 EFWEBDESIGN - Todos os direitos reservados</div>
     </footer>
 
-    <!-- WhatsApp Fixo -->
-    <a href="https://wa.me/5511999999999" target="_blank" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center text-white text-3xl shadow-[0_10px_40px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform float-animation">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <!-- Chatbot Virtual -->
+    <div id="chatbot-container">
+        <!-- Trigger Button -->
+        <button id="chatbot-trigger" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center text-black text-3xl shadow-[0_10px_40px_rgba(79,209,197,0.4)] hover:scale-110 transition-transform float-animation">
+            <i class="fa-solid fa-robot"></i>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="chatbot-window" class="rounded-2xl overflow-hidden flex flex-col">
+            <!-- Header -->
+            <div class="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400">
+                        <i class="fa-solid fa-robot text-sm"></i>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold uppercase tracking-widest">Assistente EF</span>
+                        <span class="block text-[9px] text-teal-400 animate-pulse">Online agora</span>
+                    </div>
+                </div>
+                <button id="chatbot-close" class="text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div id="chatbot-messages">
+                <div class="message-bot">
+                    Olá! Sou o assistente virtual da EFWEBDESIGN. 👋 Como posso ajudar você a escalar seu negócio hoje?
+                </div>
+            </div>
+
+            <!-- Suggested Questions (Quick Replies) -->
+            <div id="suggested-questions">
+                <button class="suggestion-chip" onclick="sendSuggestion('Quanto custa uma Landing Page?')">Preços LP</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Qual o prazo de entrega?')">Qual o prazo?</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Diferença entre LP e Site?')">LP vs Site</button>
+                <button class="suggestion-chip" onclick="sendSuggestion('Vocês fazem a copy do site?')">Fazem a copy?</button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-white/5 border-t border-white/10 flex gap-2">
+                <input type="text" id="chatbot-input" placeholder="Digite sua dúvida..." class="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm w-full focus:outline-none focus:border-teal-500/50 transition-colors">
+                <button id="chatbot-send" class="bg-teal-500 text-black w-10 h-10 rounded-xl flex items-center justify-center transition-transform hover:scale-105">
+                    <i class="fa-solid fa-paper-plane text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
-    <script>
+    <script type="module">
+        import { GoogleGenAI } from "@google/genai";
+
         // FAQ Toggle
-        function toggleFaq(element) {
+        window.toggleFaq = function(element) {
             const isActive = element.classList.contains('active');
             document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
             if (!isActive) element.classList.add('active');
-        }
+        };
 
         // Rotating Words
         const wordElements = document.querySelectorAll('.rotating-word');
@@ -1008,6 +1128,7 @@
         if(wordElements.length) updateWidth(wordElements[0].innerText);
         setInterval(() => {
             const current = wordElements[currentIndex];
+            if(!current) return;
             currentIndex = (currentIndex + 1) % wordElements.length;
             const next = wordElements[currentIndex];
             current.classList.remove('active');
@@ -1025,7 +1146,7 @@
             setTimeout(() => current.classList.remove('exit'), 450);
         }, 1400);
 
-        // Reveal
+        // Reveal Animation
         const revealSections = () => {
             document.querySelectorAll('.reveal').forEach(section => {
                 if (section.getBoundingClientRect().top < window.innerHeight * 0.85) section.classList.add('active');
@@ -1033,6 +1154,115 @@
         };
         window.addEventListener('scroll', revealSections);
         window.addEventListener('load', revealSections);
+
+        // Calculadora de ROI e Custos
+        window.currentProjectType = 'lp';
+        window.updateProjectType = function(type, element) {
+            window.currentProjectType = type;
+            document.querySelectorAll('.project-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-teal-500/50', 'bg-teal-500/10');
+                btn.classList.add('border-white/10', 'bg-white/5');
+            });
+            element.classList.add('active', 'border-teal-500/50', 'bg-teal-500/10');
+            element.classList.remove('border-white/10', 'bg-white/5');
+            window.calculateROI();
+        };
+
+        window.calculateROI = function() {
+            const visitors = parseInt(document.getElementById('visitors-range').value);
+            const ticket = parseInt(document.getElementById('ticket-range').value);
+            document.getElementById('visitors-display').innerText = visitors.toLocaleString('pt-BR');
+            document.getElementById('ticket-display').innerText = 'R$ ' + ticket.toLocaleString('pt-BR');
+            const improvementRate = 0.02; 
+            const monthlyGain = visitors * improvementRate * ticket;
+            let projectCost = window.currentProjectType === 'inst' ? 1799 : 479;
+            const roi = monthlyGain / projectCost;
+            window.animateValue("gain-display", monthlyGain);
+            document.getElementById('roi-display').innerText = Math.round(roi) + 'x';
+            document.getElementById('cost-display').innerText = 'R$ ' + projectCost.toLocaleString('pt-BR');
+        };
+
+        window.animateValue = function(id, value) {
+            const obj = document.getElementById(id);
+            const current = parseFloat(obj.innerText.replace(/\./g, '').replace(',', '.')) || 0;
+            const range = value - current;
+            const duration = 500;
+            let start = null;
+            function step(timestamp) {
+                if (!start) start = timestamp;
+                const progress = Math.min((timestamp - start) / duration, 1);
+                const currentVal = current + (range * progress);
+                obj.innerText = currentVal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                if (progress < 1) window.requestAnimationFrame(step);
+            }
+            window.requestAnimationFrame(step);
+        };
+        window.calculateROI();
+
+        // CHATBOT LOGIC
+        const trigger = document.getElementById('chatbot-trigger');
+        const win = document.getElementById('chatbot-window');
+        const close = document.getElementById('chatbot-close');
+        const msgContainer = document.getElementById('chatbot-messages');
+        const input = document.getElementById('chatbot-input');
+        const send = document.getElementById('chatbot-send');
+
+        trigger.onclick = () => win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+        close.onclick = () => win.style.display = 'none';
+
+        // Gemini AI Integration
+        const genAI = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const chat = genAI.chats.create({
+            model: 'gemini-3-flash-preview',
+            config: {
+                systemInstruction: "Você é o assistente virtual da EFWEBDESIGN. Seu objetivo é ajudar clientes em potencial a entenderem como um site profissional ou landing page pode aumentar seus lucros. Responda de forma EXTREMAMENTE HUMANA, empática e amigável. Use um tom de conversa natural, evite termos excessivamente técnicos sem explicação e mostre interesse genuíno no sucesso do negócio do cliente. EFWEBDESIGN foca em Landing Pages de Alta Conversão e Sites Institucionais. Planos: Plano 1 (LP básica 479 reais), Plano 2 (LP estratégica 897 reais), Plano 3 (Institucional 1799 reais). Todos os planos incluem bônus de hospedagem e domínio por 1 ano. Seja conciso mas caloroso nas respostas.",
+            }
+        });
+
+        async function handleSend(forcedMsg = "") {
+            const text = forcedMsg || input.value.trim();
+            if (!text) return;
+
+            // User message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message-user';
+            userDiv.innerText = text;
+            msgContainer.appendChild(userDiv);
+            input.value = '';
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+
+            // Typing indicator
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.innerText = 'Assistente está digitando...';
+            msgContainer.appendChild(typing);
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+
+            try {
+                const result = await chat.sendMessage({ message: text });
+                msgContainer.removeChild(typing);
+                
+                const botDiv = document.createElement('div');
+                botDiv.className = 'message-bot';
+                botDiv.innerText = result.text;
+                msgContainer.appendChild(botDiv);
+            } catch (error) {
+                console.error(error);
+                msgContainer.removeChild(typing);
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message-bot text-red-400';
+                errorDiv.innerText = "Desculpe, tive um probleminha técnico aqui. Pode tentar me mandar a mensagem de novo?";
+                msgContainer.appendChild(errorDiv);
+            }
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+        }
+
+        window.sendSuggestion = function(text) {
+            handleSend(text);
+        };
+
+        send.onclick = () => handleSend();
+        input.onkeypress = (e) => { if(e.key === 'Enter') handleSend(); };
     </script>
 </body>
 </html>
