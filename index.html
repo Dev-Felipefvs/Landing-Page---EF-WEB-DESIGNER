@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EFWEBDESIGN - Landing Pages de Alta Conversão</title>
+    
+    <!-- Favicon (Marca EF na aba) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2314b8a6'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='60' font-family='Inter, sans-serif' font-weight='800' fill='black'>EF</text></svg>">
+
+    <!-- Scripts & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050a0a;
+            color: white;
+            overflow-x: hidden;
+            /* Cursor padrão restaurado */
+            cursor: auto;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Premium Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #4fd1c5 0%, #319795 100%);
+            box-shadow: 0 10px 20px -5px rgba(79, 209, 197, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(79, 209, 197, 0.5);
+        }
+
+        .btn-bonus {
+            background: linear-gradient(90deg, #7ee8da 0%, #a5f3eb 100%);
+            box-shadow: 0 0 30px rgba(126, 232, 218, 0.3);
+            color: #052a2a;
+            transition: all 0.3s ease;
+        }
+        .btn-bonus:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 50px rgba(126, 232, 218, 0.5);
+        }
+
+        /* FAQ Accordion */
+        .faq-item {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .faq-item.active {
+            border-color: rgba(79, 209, 197, 0.4);
+            background: rgba(79, 209, 197, 0.03);
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s;
+        }
+        .faq-item.active .faq-content {
+            max-height: 1200px;
+            padding-bottom: 24px;
+        }
+        .faq-icon {
+            transition: transform 0.4s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal { opacity: 0; }
+        .reveal.active { animation: fadeIn 0.8s ease-out forwards; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050a0a; }
+        ::-webkit-scrollbar-thumb { background: #1a202c; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4fd1c5; }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes marquee-reverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 15s linear infinite;
+        }
+        .marquee-track-reverse {
+            display: flex;
+            width: max-content;
+            animation: marquee-reverse 15s linear infinite;
+        }
+
+        /* Ajuste de velocidade no Mobile */
+        @media (max-width: 768px) {
+            .marquee-track {
+                animation-duration: 30s;
+            }
+            .marquee-track-reverse {
+                animation-duration: 30s;
+            }
+        }
+
+        /* Rotating Text */
+        .word-rotation-container {
+            display: inline-block;
+            position: relative;
+            height: 1.2em;
+            overflow: visible;
+            vertical-align: middle;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            text-align: center;
+        }
+        .rotating-word {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%) scale(0.3);
+            opacity: 0;
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            white-space: nowrap;
+            display: inline-block;
+        }
+        .rotating-word.active {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            pointer-events: auto;
+            z-index: 2;
+        }
+        .rotating-word.exit {
+            opacity: 0;
+            transform: translateX(-50%) scale(1.4);
+            filter: blur(4px);
+            z-index: 1;
+        }
+        #word-measurer {
+            position: absolute;
+            visibility: hidden;
+            height: auto;
+            width: auto;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .bg-text-effect {
+            position: absolute;
+            font-size: 15vw;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            white-space: nowrap;
+            z-index: 0;
+            pointer-events: none;
+            text-transform: lowercase;
+            transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translate(-50%, -50%) scale(1);
+            left: 50%;
+            top: 50%;
+        }
+        .bg-text-effect.pulse {
+            transform: translate(-50%, -50%) scale(1.05);
+            opacity: 0.03;
+        }
+        .grid-impact-bg {
+            background-image: 
+                linear-gradient(rgba(79, 209, 197, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79, 209, 197, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at right bottom, black, transparent 80%);
+        }
+        .portfolio-grid-mask {
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            opacity: 0.12;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 pb-40 md:pb-24 overflow-hidden">
+        <div class="absolute inset-0 portfolio-grid-mask grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-8 pointer-events-none scale-110 blur-[1px]">
+            <!-- Colagem densa de mockups de sites estilo referência solicitada -->
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[-5deg]"><img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[3deg]"><img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[-2deg]"><img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[4deg]"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[-3deg] hidden md:block"><img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[2deg] hidden md:block"><img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[-4deg] hidden lg:block"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+            <div class="rounded-xl overflow-hidden shadow-2xl transform rotate-[5deg] hidden lg:block"><img src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover grayscale opacity-60"></div>
+        </div>
+
+        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at center, rgba(79, 209, 197, 0.1) 0%, transparent 70%);"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto flex flex-col items-center reveal active">
+            <div class="inline-block px-4 py-1.5 glass-card rounded-full border border-teal-500/30 mb-8 animate-pulse">
+                <span class="text-[9px] md:text-xs font-bold tracking-[0.2em] text-teal-300 uppercase">LANDING PAGE | SITE INSTITUCIONAL</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl md:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8">
+                Se destaque dos concorrentes<br>
+                <span class="text-teal-400">e cresça seu negócio</span><br>
+                investindo em um site profissional
+            </h1>
+
+            <div class="max-w-2xl text-base md:text-xl text-gray-400 font-light mb-12 space-y-4 px-4">
+                <p>Ter um site profissional não é mais um diferencial, <strong class="text-white font-semibold">é a base do seu faturamento em 2026.</strong></p>
+                <p><strong class="text-white font-semibold">Contrate agora</strong> e receba um site que gera resultados.</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-center w-full px-6 sm:px-0 sm:w-auto">
+                <a href="https://wa.me/5511999999999" class="btn-primary w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-sm md:text-lg flex items-center justify-center gap-3 group">
+                    QUERO UM SITE PROFISSIONAL
+                    <i class="fa-brands fa-whatsapp text-xl group-hover:scale-110 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-40 flex flex-col items-center gap-2 pointer-events-none">
+            <span class="text-[9px] uppercase tracking-[0.3em] font-bold">Role para descobrir</span>
+            <div class="w-[1.5px] h-12 bg-gradient-to-b from-teal-500 to-transparent rounded-full"></div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: Texto Rotativo Sincronizado -->
+    <section class="relative py-40 md:py-64 bg-[#050a0a] flex items-center justify-center overflow-hidden border-y border-white/5">
+        <div id="bg-rotating-text" class="bg-text-effect">resultados</div>
+        <div class="relative z-10 text-center px-4 w-full">
+            <h2 class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight inline-flex flex-wrap justify-center items-center gap-x-2 md:gap-x-5">
+                <span class="text-white shrink-0">Mais</span>
+                <span class="word-rotation-container text-teal-400" id="word-container">
+                    <span class="rotating-word active">resultados</span>
+                    <span class="rotating-word">engajamento</span>
+                    <span class="rotating-word">faturamento</span>
+                    <span class="rotating-word">autoridade</span>
+                    <span class="rotating-word">clientes fiéis</span>
+                </span>
+                <span class="text-white shrink-0">para o seu negócio</span>
+            </h2>
+        </div>
+        <div id="word-measurer" class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight"></div>
+    </section>
+
+    <!-- SEÇÃO 3: Vitrine -->
+    <section id="vitrine" class="py-24 md:py-32 px-6 md:px-12 bg-[#050a0a] reveal">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+            <!-- Coluna da Imagem com Badges (Ajustada a Proporção Vertical) -->
+            <div class="relative order-2 lg:order-1 h-full">
+                <div class="absolute -inset-10 bg-teal-500/5 blur-[100px] rounded-full pointer-events-none"></div>
+                <!-- Container da imagem com aspect-ratio fixo para ser mais vertical e equilibrar com o texto -->
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5] lg:aspect-[3/3.8]">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1000" alt="Clientes Satisfeitos" class="w-full h-full object-cover">
+                    
+                    <!-- Floating Badge 1: Clientes -->
+                    <div class="absolute top-[35%] left-[10%] glass-card px-3 py-1.5 md:px-4 md:py-2 rounded-lg border border-white/20 flex items-center gap-2 float-animation">
+                        <span class="text-teal-400 font-bold text-xs md:text-sm">+</span>
+                        <span class="text-[9px] md:text-[11px] font-bold tracking-wider text-gray-200 uppercase">Clientes</span>
+                    </div>
+
+                    <!-- Floating Badge 2: Visitantes -->
+                    <div class="absolute top-[28%] right-[10%] glass-card px-3 py-1.5 md:px-4 md:py-2 rounded-lg border border-white/20 flex items-center gap-2 float-animation" style="animation-delay: 1s;">
+                        <span class="text-teal-400 font-bold text-xs md:text-sm">+</span>
+                        <span class="text-[9px] md:text-[11px] font-bold tracking-wider text-gray-200 uppercase">Visitantes</span>
+                    </div>
+
+                    <!-- Floating Badge 3: Faturamento -->
+                    <div class="absolute bottom-[30%] right-[30%] glass-card px-3 py-1.5 md:px-4 md:py-2 rounded-lg border border-white/20 flex items-center gap-2 float-animation" style="animation-delay: 2s;">
+                        <span class="text-teal-400 font-bold text-xs md:text-sm">+</span>
+                        <span class="text-[9px] md:text-[11px] font-bold tracking-wider text-gray-200 uppercase">Faturamento</span>
+                    </div>
+
+                    <!-- Floating Badge 4: ROI -->
+                    <div class="absolute bottom-[20%] left-[20%] glass-card px-3 py-1.5 md:px-4 md:py-2 rounded-lg border border-white/20 flex items-center gap-2 float-animation" style="animation-delay: 1.5s;">
+                        <span class="text-teal-400 font-bold text-xs md:text-sm">+</span>
+                        <span class="text-[9px] md:text-[11px] font-bold tracking-wider text-gray-200 uppercase">ROI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna de Texto -->
+            <div class="order-1 lg:order-2 flex flex-col items-start justify-center">
+                <div class="inline-block px-4 py-1.5 rounded-md border border-white/10 mb-8 bg-white/5 uppercase text-[10px] font-bold tracking-[0.2em] text-teal-400">
+                    A VITRINE DO SEU NEGÓCIO
+                </div>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-8 text-white tracking-tight">
+                    Em um mundo cada vez mais conectado, <span class="text-teal-400">um site profissional</span> é a primeira impressão que você deixa nos seus clientes
+                </h2>
+                <div class="space-y-6 text-gray-400 text-base md:text-lg leading-relaxed font-light">
+                    <p>
+                        E essa impressão precisa ser a melhor possível. <strong class="text-white font-semibold">O design, a funcionalidade, a rapidez – tudo conta.</strong>
+                    </p>
+                    <p>
+                        Quando você tem um site profissional, ele não apenas atrai visitantes, mas <strong class="text-white font-semibold">transforma essas visitas em clientes e esses clientes em faturamento.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee (Palavras Infinitas Estilizadas - AUMENTADO) -->
+    <section class="py-16 bg-[#050a0a] overflow-hidden space-y-6">
+        <!-- Linha 1 -->
+        <div class="marquee-track flex items-center gap-6">
+            <div class="flex items-center gap-6 px-4">
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">COPY PERSUASIVA</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PERFORMANCE</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PROFISSIONALISMO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">ALTA CONVERSÃO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RESULTADOS</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+            </div>
+            <!-- Duplicado para loop -->
+            <div class="flex items-center gap-6 px-4">
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">COPY PERSUASIVA</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PERFORMANCE</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PROFISSIONALISMO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">ALTA CONVERSÃO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RESULTADOS</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+            </div>
+        </div>
+
+        <!-- Linha 2 -->
+        <div class="marquee-track-reverse flex items-center gap-6">
+            <div class="flex items-center gap-6 px-4">
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+            </div>
+            <!-- Duplicado para loop -->
+            <div class="flex items-center gap-6 px-4">
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">PERSONALIZADO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RÁPIDO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+                <span class="border border-white/10 px-10 py-4 rounded-full text-sm md:text-xl font-bold tracking-[0.05em] text-gray-500 uppercase">RESPONSIVO</span>
+                <div class="w-1.5 h-1.5 rounded-full bg-teal-500/30"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Processo -->
+    <section id="processo" class="py-24 md:py-32 px-6 bg-[#050a0a] reveal">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block px-4 py-1.5 rounded-md border border-white/10 mb-8 bg-white/5 uppercase text-[10px] font-bold tracking-widest text-teal-400">Como Funciona</div>
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-8 tracking-tight text-white leading-tight">O processo foi pensado para ser simples e eficiente.</h2>
+            <p class="text-gray-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto mt-6">
+                O projeto foi pensado para ser simples, transparente e eficiente. <br class="hidden md:block">
+                Desde a primeira conversa até o lançamento do seu site, estarei disponível para garantir que tudo saia conforme planejado.
+            </p>
+        </div>
+    </section>
+
+    <!-- Os Diferenciais -->
+    <section id="diferenciais" class="py-24 md:py-32 px-6 md:px-12 bg-[#050a0a] reveal">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-1.5 rounded-md border border-white/10 mb-8 bg-white/5 uppercase text-[10px] font-bold tracking-widest text-teal-400">POR QUE NOS ESCOLHER</div>
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">Nossos <span class="text-teal-400">Diferenciais</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">O que nos torna a escolha certa para o sucesso do seu projeto digital.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Diferencial 1 -->
+                <div class="glass-card p-8 rounded-3xl border border-white/5 hover:border-teal-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 text-teal-400 border border-teal-500/10 group-hover:bg-teal-500/20 transition-colors">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Design Exclusivo</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Não usamos templates prontos. Cada site é desenhado do zero para refletir a identidade única da sua marca.</p>
+                </div>
+                <!-- Diferencial 2 -->
+                <div class="glass-card p-8 rounded-3xl border border-white/5 hover:border-teal-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 text-teal-400 border border-teal-500/10 group-hover:bg-teal-500/20 transition-colors">
+                        <i class="fa-solid fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Performance Extrema</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Sites ultra rápidos que carregam em menos de 2 segundos. Menor taxa de rejeição e mais vendas.</p>
+                </div>
+                <!-- Diferencial 3 -->
+                <div class="glass-card p-8 rounded-3xl border border-white/5 hover:border-teal-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 text-teal-400 border border-teal-500/10 group-hover:bg-teal-500/20 transition-colors">
+                        <i class="fa-solid fa-magnifying-glass-chart text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Foco em SEO</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Estrutura técnica otimizada para o Google desde o primeiro dia, ajudando seu site a ranquear melhor.</p>
+                </div>
+                <!-- Diferencial 4 -->
+                <div class="glass-card p-8 rounded-3xl border border-white/5 hover:border-teal-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 text-teal-400 border border-teal-500/10 group-hover:bg-teal-500/20 transition-colors">
+                        <i class="fa-solid fa-headset text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Suporte Vitalício</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Você nunca fica na mão. Oferecemos suporte rápido e direto para que sua página esteja sempre online.</p>
+                </div>
+                <!-- Diferencial 5: Velocidade e performance -->
+                <div class="glass-card p-8 rounded-3xl border border-white/5 hover:border-teal-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 text-teal-400 border border-teal-500/10 group-hover:bg-teal-500/20 transition-colors">
+                        <i class="fa-solid fa-gauge-high text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Velocidade e performance</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Garantimos o carregamento instantâneo em qualquer dispositivo, essencial para manter a retenção e o ranqueamento.</p>
+                </div>
+                <!-- Diferencial 6: Copy Persuasiva -->
+                <div class="glass-card p-8 rounded-3xl border border-white/5 hover:border-teal-500/30 transition-all group">
+                    <div class="w-16 h-16 bg-teal-500/10 rounded-2xl flex items-center justify-center mb-6 text-teal-400 border border-teal-500/10 group-hover:bg-teal-500/20 transition-colors">
+                        <i class="fa-solid fa-pen-nib text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Copy Persuasiva</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Usamos técnicas de redação comercial focadas em persuadir o visitante a tomar uma ação imediata e qualificada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Soluções (ATUALIZADA COM ÍCONES E ANIMAÇÕES) -->
+    <section id="solucoes" class="py-24 md:py-32 px-6 md:px-12 bg-[#080f0f] border-t border-white/5 reveal">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <div class="inline-block px-4 py-1.5 rounded-md border border-white/10 mb-8 bg-white/5 uppercase text-[10px] font-bold tracking-widest text-teal-400">AS SOLUÇÕES PARA O SEU NEGÓCIO</div>
+                <h2 class="text-3xl md:text-5xl font-extrabold leading-tight">Escolha a estratégia <span class="text-teal-400">ideal</span></h2>
+                <p class="text-gray-400 mt-6 max-w-2xl mx-auto text-lg">Entenda a diferença entre cada solução e como elas impactam seu faturamento.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
+                <!-- Card Landing Page (CORREÇÃO: Removida mancha transparente absoluta) -->
+                <div class="glass-card p-8 md:p-12 rounded-[2rem] border border-white/5 hover:border-teal-500/40 transition-all group relative overflow-hidden flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center text-teal-400">
+                            <i class="fa-solid fa-rocket text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-bold">Landing Page</h3>
+                    </div>
+                    
+                    <div class="space-y-6 mb-10 flex-grow">
+                        <div>
+                            <span class="text-teal-400 text-[10px] font-bold uppercase tracking-wider block mb-2">Foco Principal</span>
+                            <p class="text-white text-lg font-semibold">Conversão Imediata e Vendas</p>
+                        </div>
+                        <ul class="space-y-4 text-gray-400">
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Página única focada em uma única oferta.</span></li>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Copywriting agressivo e persuasivo.</span></li>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Ideal para Google Ads e Meta Ads.</span></li>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Gatilhos mentais e prova social estratégica.</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-6 bg-white/5 rounded-2xl border border-white/5 mb-8">
+                        <p class="text-sm text-gray-300 italic">"Se você quer vender um produto ou serviço específico hoje, esta é a sua escolha."</p>
+                    </div>
+                </div>
+
+                <!-- Card Site Institucional -->
+                <div class="glass-card p-8 md:p-12 rounded-[2rem] border border-white/5 hover:border-teal-500/40 transition-all group relative overflow-hidden flex flex-col h-full">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full"></div>
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-teal-400 border border-white/10">
+                            <i class="fa-solid fa-building text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-bold">Site Institucional</h3>
+                    </div>
+                    
+                    <div class="space-y-6 mb-10 flex-grow">
+                        <div>
+                            <span class="text-teal-400 text-[10px] font-bold uppercase tracking-wider block mb-2">Foco Principal</span>
+                            <p class="text-white text-lg font-semibold">Autoridade e Credibilidade</p>
+                        </div>
+                        <ul class="space-y-4 text-gray-400">
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Múltiplas páginas (Início, Sobre, Serviços, Contato).</span></li>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Apresentação completa da empresa e equipe.</span></li>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Otimizado para SEO (Aparecer no Google organicamente).</span></li>
+                            <li class="flex items-start gap-3"><i class="fa-solid fa-check text-teal-500 mt-1"></i> <span>Sua "casa digital" permanente e profissional.</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 bg-white/5 rounded-2xl border border-white/5 mb-8">
+                        <p class="text-sm text-gray-300 italic">"Se você quer construir uma marca forte e ser encontrado por clientes que pesquisam seu nome."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ajuda a escolher + CTA Principal -->
+            <div class="max-w-4xl mx-auto glass-card p-8 md:p-12 rounded-3xl border border-teal-500/20 text-center relative">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-teal-500 px-6 py-2 rounded-full text-black font-bold text-sm">QUAL ESCOLHER?</div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-6">Ainda na dúvida sobre a melhor estratégia?</h3>
+                <p class="text-gray-400 text-lg mb-10 leading-relaxed">
+                    Não jogue dinheiro fora com a ferramenta errada. Se o seu objetivo é <span class="text-white font-semibold">vender agora</span>, escolha a Landing Page. Se é <span class="text-white font-semibold">construir autoridade</span> a longo prazo, o Site Institucional é o caminho. 
+                    <br><br>
+                    <span class="text-teal-400 font-bold">Clique no botão abaixo para uma consultoria gratuita.</span> Analiso seu negócio e te digo exatamente o que você precisa.
+                </p>
+                
+                <a href="https://wa.me/5511999999999" class="btn-primary inline-flex items-center gap-4 px-10 py-5 rounded-2xl font-bold text-lg group">
+                    ME AJUDE A ESCOLHER
+                    <i class="fa-brands fa-whatsapp text-2xl transition-transform group-hover:scale-110"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANOS (CORRIGIDO: Removida mancha transparente/artefatos de shadow) -->
+    <section id="planos" class="relative py-24 md:py-32 bg-[#050a0a] reveal overflow-hidden isolation-auto">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-1.5 rounded-md border border-white/10 mb-8 bg-white/5 uppercase text-[10px] font-bold tracking-widest text-teal-400">PLANOS E INVESTIMENTOS</div>
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-6 tracking-tight">O plano ideal para sua escala</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Plano 1 -->
+                <div class="glass-card p-8 md:p-10 rounded-[2rem] border border-white/5 flex flex-col h-full hover:border-teal-500/30 transition-all bg-white/[0.04]">
+                    <h3 class="text-lg font-bold text-teal-400 mb-2 uppercase">PLANO 1 — LANDING PAGE</h3>
+                    <p class="text-gray-400 text-sm italic mb-8">Ideal para quem quer anunciar e converter.</p>
+                    
+                    <div class="mb-10">
+                        <div class="text-white text-3xl md:text-4xl font-black mb-1">
+                            <span class="text-teal-400">12x de 39</span>
+                        </div>
+                        <div class="text-gray-500 text-sm">ou 479 à vista.</div>
+                    </div>
+
+                    <ul class="space-y-4 mb-12 flex-grow">
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Landing page focada em conversão</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Otimizada para celular</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>SEO básico</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Integração com WhatsApp ou formulário</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex items-center gap-2 text-teal-400 font-bold text-sm mb-8">
+                        <i class="fa-regular fa-clock"></i> ⏱ Prazo: 2 a 3 dias úteis
+                    </div>
+
+                    <a href="https://wa.me/5511999999999" class="w-full py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-center transition-all">CONTRATAR AGORA</a>
+                </div>
+
+                <!-- Plano 2 -->
+                <div class="p-8 md:p-10 rounded-[2rem] border border-teal-500/30 flex flex-col h-full bg-[#0a1a1a] relative shadow-lg shadow-teal-500/5 transition-all hover:shadow-teal-500/10">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-teal-500 text-black px-4 py-1 rounded-full text-[10px] font-black uppercase">MAIS ESTRATÉGICO</div>
+                    <h3 class="text-lg font-bold text-teal-400 mb-2 uppercase">PLANO 2 — LANDING PAGE (AVANÇADA)</h3>
+                    <p class="text-gray-400 text-sm italic mb-8">Para quem quer mais estratégia e conversão.</p>
+                    
+                    <div class="mb-10">
+                        <div class="text-white text-3xl md:text-4xl font-black mb-1">
+                            <span class="text-teal-400">12x de 74</span>
+                        </div>
+                        <div class="text-gray-500 text-sm">ou 897 à vista.</div>
+                    </div>
+
+                    <ul class="space-y-4 mb-12 flex-grow">
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Estrutura estratégica</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Copy otimizada</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>CTA avançado</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Integrações completas</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Pixel configurado</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex items-center gap-2 text-teal-400 font-bold text-sm mb-8">
+                        <i class="fa-regular fa-clock"></i> ⏱ Prazo: 7 a 10 dias úteis
+                    </div>
+
+                    <a href="https://wa.me/5511999999999" class="btn-primary w-full py-4 rounded-2xl font-bold text-center transition-all">CONTRATAR AGORA</a>
+                </div>
+
+                <!-- Plano 3 -->
+                <div class="glass-card p-8 md:p-10 rounded-[2rem] border border-white/5 flex flex-col h-full hover:border-teal-500/30 transition-all bg-white/[0.04]">
+                    <h3 class="text-lg font-bold text-teal-400 mb-2 uppercase">PLANO 3 — SITE INSTITUCIONAL</h3>
+                    <p class="text-gray-400 text-sm italic mb-8">Para negócios que precisam de presença profissional.</p>
+                    
+                    <div class="mb-10">
+                        <div class="text-white text-3xl md:text-4xl font-black mb-1">
+                            <span class="text-teal-400">12x de 149</span>
+                        </div>
+                        <div class="text-gray-500 text-sm">ou 1799 à vista.</div>
+                    </div>
+
+                    <ul class="space-y-4 mb-12 flex-grow">
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Site institucional</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Design profissional</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>Otimizado para celular</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300">
+                            <i class="fa-solid fa-check text-teal-500 mt-1"></i>
+                            <span>SEO básico</span>
+                        </li>
+                    </ul>
+
+                    <div class="flex items-center gap-2 text-teal-400 font-bold text-sm mb-8">
+                        <i class="fa-regular fa-clock"></i> ⏱ Prazo: 10 a 15 dias úteis
+                    </div>
+
+                    <a href="https://wa.me/5511999999999" class="w-full py-4 bg-white/5 border border-white/10 rounded-2xl font-bold text-center transition-all">CONTRATAR AGORA</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bônus -->
+    <section id="bonus" class="py-24 md:py-32 bg-[#050a0a] reveal">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
+            <div class="border border-teal-500/20 px-6 py-2 rounded-md mb-8 bg-teal-500/5 text-teal-400 font-bold text-[10px] tracking-widest uppercase">BÔNUS</div>
+            <h2 class="text-2xl md:text-4xl font-semibold mb-16 max-w-4xl leading-tight">Além de receber um site que é uma verdadeira máquina de resultados, você também leva os seguintes bônus:</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 w-full max-w-5xl">
+                <!-- Bônus 1 -->
+                <div class="flex items-center gap-4 text-left justify-center md:justify-start">
+                    <div class="w-12 h-12 shrink-0 bg-teal-500/10 rounded-lg flex items-center justify-center text-teal-400 border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.1)]">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-300 font-medium">1 ano de domínio e hospedagem grátis</p>
+                </div>
+                <!-- Bônus 2 -->
+                <div class="flex items-center gap-4 text-left justify-center md:justify-start">
+                    <div class="w-12 h-12 shrink-0 bg-teal-500/10 rounded-lg flex items-center justify-center text-teal-400 border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.1)]">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-300 font-medium">Suporte no 1º mês após o site estar no ar</p>
+                </div>
+                <!-- Bônus 3 -->
+                <div class="flex items-center gap-4 text-left justify-center md:justify-start">
+                    <div class="w-12 h-12 shrink-0 bg-teal-500/10 rounded-lg flex items-center justify-center text-teal-400 border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.1)]">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+                    <p class="text-sm md:text-base text-gray-300 font-medium">Desconto em manutenções futuras</p>
+                </div>
+            </div>
+
+            <a href="https://wa.me/5511999999999" class="btn-bonus px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-4 group">
+                QUERO APROVEITAR O BÔNUS <i class="fa-brands fa-whatsapp text-2xl group-hover:scale-110 transition-transform"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- O Verdadeiro Impacto -->
+    <section id="impacto" class="relative py-24 md:py-32 bg-[#050a0a] overflow-hidden reveal">
+        <div class="absolute inset-0 grid-impact-bg pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                <!-- Coluna Esquerda -->
+                <div class="text-left">
+                    <div class="inline-block px-4 py-2 rounded-md border border-white/10 mb-8 bg-white/5">
+                        <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-teal-400 uppercase">O VERDADEIRO IMPACTO</span>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-8 text-white tracking-tight">
+                        <span class="text-teal-400">Nos próximos anos vão existir 2 tipos de negócios:</span> os que tem uma forte presença digital e os que estão de porta fechada.
+                    </h2>
+                    <div class="space-y-4 text-gray-400 text-lg md:text-xl font-light">
+                        <p>Se você não valoriza sua presença online, pode ter certeza que seu concorrente valoriza.</p>
+                        <p class="text-white font-bold">Não fique para trás e invista agora em um site profissional.</p>
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Cards de Estatísticas -->
+                <div class="space-y-6">
+                    <!-- Card 1 -->
+                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
+                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
+                            <strong class="text-white font-bold">75% dos usuários</strong> julgam a credibilidade de um negócio com base no design do site.
+                        </p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
+                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
+                            <strong class="text-white font-bold">88% dos usuários</strong> são menos propensos a voltar a um site após uma experiênca negativa, como um site lento ou confuso.
+                        </p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-teal-500 flex flex-col justify-center relative overflow-hidden group">
+                        <p class="text-white text-base md:text-lg leading-relaxed relative z-10">
+                            Para cada R$5 investido em um bom site, pode resultar em um <strong class="text-white font-bold">retorno de R$500 ou mais</strong>
+                        </p>
+                    </div>
+                    <p class="text-[10px] text-gray-600 uppercase tracking-widest text-right mt-4">FONTE: aufaitux.com</p>
+                </div>
+            </div>
+
+            <!-- Botão CTA Abaixo -->
+            <div class="mt-20 flex justify-center">
+                <a href="https://wa.me/5511999999999" class="btn-primary px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-4 group shadow-[0_0_40px_rgba(79,209,197,0.3)] transition-all hover:scale-[1.05]">
+                    QUERO UM SITE PROFISSIONAL <i class="fa-brands fa-whatsapp text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 md:py-32 bg-[#050a0a] reveal border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight">Dúvidas Frequentes</h2>
+            </div>
+            <div class="space-y-4">
+                <!-- Item 1 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Em quanto tempo fica pronta a landing page?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">O prazo de criação de uma landing page é de 2 a 3 dias úteis, após o envio das informações e confirmação do pagamento.</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">E um site institucional, quanto tempo leva?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">Um site institucional leva em média de 10 a 15 dias úteis, pois envolve mais páginas, estrutura e ajustes.</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Como funciona o pagamento?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">O pagamento é feito em 50% no início para dar start no projeto e 50% na entrega da landing page ou site.</p>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">A LANDING PAGE É OTIMIZADA PARA CELULAR?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">Sim. A landing page é 100% responsiva, pensada primeiro para celular, que é de onde vem a maior parte dos acessos.</p>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">O que exatamente está incluso na landing page?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">Inclui estrutura focada em conversão, design responsivo, ajustes de textos, CTA estratégico e integração básica (WhatsApp ou formulário).</p>
+                    </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">A landing page tem SEO para o Google?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">Sim, possui SEO básico aplicado (estrutura, títulos e performance). O foco principal é converter tráfego, não ranqueamento orgânico.</p>
+                    </div>
+                </div>
+                <!-- Item 7 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Posso pedir alterações?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">Sim. Cada pacote inclui uma quantidade definida de ajustes. Alterações fora do escopo podem ser cobradas à parte.</p>
+                    </div>
+                </div>
+                <!-- Item 8 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Posso usar a landing page para anúncios?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">Sim. Todas as landing pages são entregues prontas para tráfego pago.</p>
+                    </div>
+                </div>
+                <!-- Item 9 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Você faz tráfego pago?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">Não. Meu foco é a criação da landing page. Posso orientar ou indicar parceiros, se necessário.</p>
+                    </div>
+                </div>
+                <!-- Item 10 -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">Como faço para contratar?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <p class="text-gray-400 leading-relaxed">É só me chamar diretamente no Whatsapp.</p>
+                    </div>
+                </div>
+                <!-- Item 11: Planos -->
+                <div class="faq-item rounded-2xl overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="p-6 md:p-8 flex justify-between items-center">
+                        <h3 class="text-lg md:text-xl font-bold text-white uppercase">COMO FUNCIONAM OS PLANOS?</h3>
+                        <div class="faq-icon text-teal-400"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-content px-6 md:px-8">
+                        <div class="text-gray-400 leading-relaxed space-y-6">
+                            <p>Trabalho com planos claros e objetivos, focados apenas na criação da landing page ou do site, prontos para anúncios.</p>
+                            
+                            <div class="border-l-2 border-teal-500/50 pl-4">
+                                <h4 class="text-white font-bold uppercase mb-2">PLANO 1 — LANDING PAGE</h4>
+                                <p class="mb-2 italic text-sm">Ideal para quem quer anunciar e converter.</p>
+                                <ul class="list-disc list-inside text-sm space-y-1">
+                                    <li>Landing page focada em conversão</li>
+                                    <li>Otimizada para celular</li>
+                                    <li>SEO básico</li>
+                                    <li>Integração com WhatsApp ou formulário</li>
+                                </ul>
+                                <p class="mt-2 font-bold text-teal-400">⏱ Prazo: 2 a 3 dias úteis</p>
+                            </div>
+
+                            <div class="border-l-2 border-teal-500/50 pl-4">
+                                <h4 class="text-white font-bold uppercase mb-2">PLANO 2 — LANDING PAGE (AVANÇADA)</h4>
+                                <p class="mb-2 italic text-sm">Para quem quer mais estratégia e conversão.</p>
+                                <ul class="list-disc list-inside text-sm space-y-1">
+                                    <li>Estrutura estratégica</li>
+                                    <li>Copy otimizada</li>
+                                    <li>CTA avançado</li>
+                                    <li>Integrações completas</li>
+                                    <li>Pixel configurado</li>
+                                </ul>
+                                <p class="mt-2 font-bold text-teal-400">⏱ Prazo: 7 a 10 dias úteis</p>
+                            </div>
+
+                            <div class="border-l-2 border-teal-500/50 pl-4">
+                                <h4 class="text-white font-bold uppercase mb-2">PLANO 3 — SITE INSTITUCIONAL</h4>
+                                <p class="mb-2 italic text-sm">Para negócios que precisam de presença profissional.</p>
+                                <ul class="list-disc list-inside text-sm space-y-1">
+                                    <li>Site institucional</li>
+                                    <li>Design profissional</li>
+                                    <li>Otimizado para celular</li>
+                                    <li>SEO básico</li>
+                                </ul>
+                                <p class="mt-2 font-bold text-teal-400">⏱ Prazo: 10 a 15 dias úteis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-6 md:px-12 bg-[#050a0a] border-t border-white/5 text-center">
+        <div class="flex items-center justify-center gap-2 mb-12">
+            <div class="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center font-bold text-black text-xl">EF</div>
+            <span class="font-extrabold text-2xl tracking-tighter">WEBDESIGN</span>
+        </div>
+        <div class="text-[10px] text-gray-600 uppercase tracking-widest">© 2026 EFWEBDESIGN - Todos os direitos reservados</div>
+    </footer>
+
+    <!-- WhatsApp Fixo -->
+    <a href="https://wa.me/5511999999999" target="_blank" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center text-white text-3xl shadow-[0_10px_40px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform float-animation">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script>
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const isActive = element.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            if (!isActive) element.classList.add('active');
+        }
+
+        // Rotating Words
+        const wordElements = document.querySelectorAll('.rotating-word');
+        const container = document.getElementById('word-container');
+        const measurer = document.getElementById('word-measurer');
+        const bgRotatingEl = document.getElementById('bg-rotating-text');
+        let currentIndex = 0;
+        function updateWidth(text) {
+            if(!measurer || !container) return;
+            measurer.innerText = text;
+            container.style.width = measurer.offsetWidth + 'px';
+        }
+        if(wordElements.length) updateWidth(wordElements[0].innerText);
+        setInterval(() => {
+            const current = wordElements[currentIndex];
+            currentIndex = (currentIndex + 1) % wordElements.length;
+            const next = wordElements[currentIndex];
+            current.classList.remove('active');
+            current.classList.add('exit');
+            updateWidth(next.innerText);
+            next.classList.remove('exit');
+            next.classList.add('active');
+            if(bgRotatingEl) {
+                bgRotatingEl.classList.add('pulse');
+                setTimeout(() => {
+                    bgRotatingEl.innerText = next.innerText;
+                    bgRotatingEl.classList.remove('pulse');
+                }, 200);
+            }
+            setTimeout(() => current.classList.remove('exit'), 450);
+        }, 1400);
+
+        // Reveal
+        const revealSections = () => {
+            document.querySelectorAll('.reveal').forEach(section => {
+                if (section.getBoundingClientRect().top < window.innerHeight * 0.85) section.classList.add('active');
+            });
+        };
+        window.addEventListener('scroll', revealSections);
+        window.addEventListener('load', revealSections);
+    </script>
+</body>
+</html>
